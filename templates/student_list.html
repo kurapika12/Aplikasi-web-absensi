@@ -1,0 +1,98 @@
+<!-- qr_absensi_app/templates/student_list.html -->
+{% extends 'base.html' %} {% block content %}
+<h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Daftar Mahasiswa</h2>
+
+<div class="bg-white p-6 rounded-lg shadow-xl overflow-x-auto">
+  {% if students %}
+  <table class="min-w-full leading-normal table-auto">
+    <thead>
+      <tr>
+        <th
+          class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider rounded-tl-lg"
+        >
+          Nama
+        </th>
+        <th
+          class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+        >
+          NIM
+        </th>
+        <th
+          class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+        >
+          QR Code
+        </th>
+        <th
+          class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+        >
+          Aksi
+        </th>
+        <th
+          class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider rounded-tr-lg"
+        >
+          Unduh QR
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for student in students %}
+      <tr class="hover:bg-gray-50">
+        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+          {{ student.nama }}
+        </td>
+        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+          {{ student.nis }}
+        </td>
+        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+          <img
+            src="{{ student.qr_code_path }}"
+            alt="QR Code {{ student.nama }}"
+            class="w-20 h-20 rounded-md shadow-sm"
+          />
+        </td>
+        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+          <form
+            action="{{ url_for('delete_student', student_id=student.id) }}"
+            method="post"
+            onsubmit="return confirm('Apakah Anda yakin ingin menghapus Mahasiswa ini? Data absensi terkait juga akan dihapus.');"
+          >
+            <button
+              type="submit"
+              class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg shadow-md text-xs transition duration-300"
+            >
+              Hapus
+            </button>
+          </form>
+        </td>
+        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+          <a
+            href="{{ student.qr_code_path }}"
+            download="qr_absen_{{ student.nis }}.png"
+            class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md text-xs transition duration-300 inline-block"
+          >
+            Unduh QR
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="text-center text-gray-600 text-lg py-10">
+    Belum ada mahasiswa terdaftar.
+    <a href="{{ url_for('add_student') }}" class="text-blue-600 hover:underline"
+      >Tambahkan mahasiswa sekarang!</a
+    >
+  </p>
+  {% endif %}
+</div>
+
+<div class="text-center mt-8">
+  <a
+    href="{{ url_for('admin_dashboard') }}"
+    class="inline-block bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg shadow-md transition duration-300"
+  >
+    Kembali ke Dashboard Admin
+  </a>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+<!-- qr_absensi_app/templates/index.html -->
+{% extends 'base.html' %} {% block content %}
+<div
+  class="flex flex-col items-center justify-center min-h-[calc(100vh-180px)] text-center bg-white p-8 rounded-lg shadow-xl"
+>
+  <h1 class="text-5xl font-extrabold text-blue-800 mb-6 animate-pulse">
+    Selamat Datang di Sistem Absensi QR!
+  </h1>
+  <p class="text-xl text-gray-700 mb-8">
+    Aplikasi ini memungkinkan Anda mengelola data siswa dan mencatat kehadiran
+    dengan mudah menggunakan pemindaian QR code.
+  </p>
+  <div class="flex space-x-6">
+    <a
+      href="{{ url_for('admin_dashboard') }}"
+      class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform transition duration-300 hover:scale-105"
+    >
+      Dashboard Admin
+    </a>
+    <a
+      href="{{ url_for('attendance_scanner') }}"
+      class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform transition duration-300 hover:scale-105"
+    >
+      Mulai Absensi
+    </a>
+  </div>
+</div>
+{% endblock %}

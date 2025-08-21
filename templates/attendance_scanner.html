@@ -1,0 +1,148 @@
+<!-- qr_absensi_app/templates/attendance_scanner.html -->
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistem Absensi QR - Absen</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f3f4f6;
+        color: #333;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1.5rem;
+      }
+      .flash-message {
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 1rem;
+        border-radius: 0.5rem;
+        font-weight: 500;
+      }
+      .flash-message.success {
+        background-color: #d1fae5;
+        color: #065f46;
+        border: 1px solid #10b981;
+      }
+      .flash-message.error {
+        background-color: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #ef4444;
+      }
+      .flash-message.warning {
+        background-color: #fffbeb;
+        color: #92400e;
+        border: 1px solid #f59e0b;
+      }
+    </style>
+    <!-- Instascan CDN for QR scanning -->
+    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+  </head>
+  <body class="bg-gray-100 min-h-screen flex flex-col">
+    <nav class="bg-blue-600 p-4 shadow-lg">
+      <div class="container flex justify-center items-center">
+        {# Changed to justify-center #}
+        <a
+          href="{{ url_for('index') }}"
+          class="text-white text-2xl font-bold rounded-md px-3 py-1 hover:bg-blue-700 transition duration-300"
+          >Absensi QR</a
+        >
+        {# Removed the admin and absen links #}
+      </div>
+    </nav>
+
+    <main class="flex-grow container mt-8">
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %}
+      <div class="mb-4">
+        {% for category, message in messages %}
+        <div class="flash-message {{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+      {% endif %} {% endwith %}
+
+      <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">
+        Pemindai Absensi QR
+      </h2>
+
+      <div
+        class="flex flex-col items-center justify-center bg-white p-8 rounded-lg shadow-xl max-w-lg md:max-w-4xl mx-auto"
+      >
+        <div
+          class="relative w-full overflow-hidden rounded-lg shadow-lg mb-6 bg-gray-800 h-[480px] md:h-[600px]"
+          <!--
+          Added
+          fixed
+          height
+          and
+          responsive
+          --
+        >
+          >
+          <video
+            id="preview"
+            class="w-full h-full transform scale-x-[-1]"
+            <!--
+            Fill
+            entire
+            container
+            --
+          >
+            >
+          </video>
+          <!-- Mirror effect -->
+          <div
+            id="loadingMessage"
+            class="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75 text-white text-lg font-semibold"
+          >
+            Memuat kamera... Pastikan kamera diizinkan.
+          </div>
+        </div>
+
+        <div
+          id="scanResult"
+          class="text-center mb-6 text-xl font-semibold text-gray-700"
+        >
+          Siap memindai QR code.
+        </div>
+
+        <div
+          id="statusPopup"
+          class="fixed inset-0 flex items-center justify-center z-50 hidden"
+        >
+          <div class="bg-black bg-opacity-70 absolute inset-0"></div>
+          <div
+            class="bg-white p-8 rounded-xl shadow-2xl z-10 text-center transform scale-0 opacity-0 transition-all duration-300"
+            id="popupContent"
+          >
+            <h3
+              id="popupTitle"
+              class="text-3xl font-bold text-gray-800 mb-4"
+            ></h3>
+            <p id="popupMessage" class="text-xl text-gray-600"></p>
+          </div>
+        </div>
+
+        <button
+          id="startScanButton"
+          class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform transition duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 w-full"
+        >
+          {# Added w-full class #} Mulai Pindai QR
+        </button>
+      </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white p-4 mt-8">
+      <div class="container text-center">
+        &copy; {{ datetime.now().year }} Sistem Absensi QR. All rights reserved.
+      </div>
+    </footer>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  </body>
+</html>

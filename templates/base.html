@@ -1,0 +1,86 @@
+<!-- qr_absensi_app/templates/base.html -->
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistem Absensi QR</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f3f4f6;
+        color: #333;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1.5rem;
+      }
+      .flash-message {
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 1rem;
+        border-radius: 0.5rem;
+        font-weight: 500;
+      }
+      .flash-message.success {
+        background-color: #d1fae5;
+        color: #065f46;
+        border: 1px solid #10b981;
+      }
+      .flash-message.error {
+        background-color: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #ef4444;
+      }
+      .flash-message.warning {
+        background-color: #fffbeb;
+        color: #92400e;
+        border: 1px solid #f59e0b;
+      }
+    </style>
+    {% block head %}{% endblock %}
+  </head>
+  <body class="bg-gray-100 min-h-screen flex flex-col">
+    <nav class="bg-blue-600 p-4 shadow-lg">
+      <div class="container flex justify-between items-center">
+        <a
+          href="{{ url_for('index') }}"
+          class="text-white text-2xl font-bold rounded-md px-3 py-1 hover:bg-blue-700 transition duration-300"
+          >Absensi QR</a
+        >
+        <div class="space-x-4">
+          <a
+            href="{{ url_for('admin_dashboard') }}"
+            class="text-white hover:text-blue-200 font-medium transition duration-300"
+            >Admin</a
+          >
+          <a
+            href="{{ url_for('attendance_scanner') }}"
+            class="text-white hover:text-blue-200 font-medium transition duration-300"
+            >Absen</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <main class="flex-grow container mt-8">
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %}
+      <div class="mb-4">
+        {% for category, message in messages %}
+        <div class="flash-message {{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+      {% endif %} {% endwith %} {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-gray-800 text-white p-4 mt-8">
+      <div class="container text-center">
+        &copy; {{ datetime.now().year }} Sistem Absensi QR. All rights reserved.
+      </div>
+    </footer>
+  </body>
+</html>
