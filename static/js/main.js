@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let scanTimeout = null; // Untuk mencegah pemindaian berulang dalam waktu singkat
 
     // Fungsi untuk menampilkan pop-up
-    function showPopup(title, message, type = 'success', duration = 500) {
+    function showPopup(title, message, type = 'success', duration = 1500) {
         popupTitle.textContent = title;
         popupMessage.textContent = message;
 
